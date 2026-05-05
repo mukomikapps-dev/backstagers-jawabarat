@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "Budi Hartono",
+    "position": "Ketua DPD Jawa Barat",
+    "title": "Chairman - West Java Regional",
+    "phone": "+62 812-3456-7890",
+    "email": "budi@backstagers.org",
+    "bio": "Pemimpin visioner dengan pengalaman lebih dari 15 tahun di industri event dan seni pertunjukan.",
+    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%234f46e5' width='400' height='500'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%2318a34a'/%3E%3Ctext x='200' y='300' font-size='24' fill='%23fff' text-anchor='middle' font-weight='bold'%3EBudi Hartono%3C/text%3E%3Ctext x='200' y='340' font-size='18' fill='%23e0e7ff' text-anchor='middle'%3EKetua DPD%3C/text%3E%3C/svg%3E",
+    "department": "Leadership"
+  },
+  {
+    "id": 2,
+    "name": "Siti Nurhaliza",
+    "position": "Wakil Ketua I DPD Jawa Barat",
+    "title": "Vice Chairman I - West Java Regional",
+    "phone": "+62 812-3456-7891",
+    "email": "siti@backstagers.org",
+    "bio": "Profesional berpengalaman dalam manajemen operasional dan strategi bisnis event.",
+    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%238b5cf6' width='400' height='500'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%23ec4899'/%3E%3Ctext x='200' y='300' font-size='24' fill='%23fff' text-anchor='middle' font-weight='bold'%3ESiti Nurhaliza%3C/text%3E%3Ctext x='200' y='340' font-size='18' fill='%23ede9fe' text-anchor='middle'%3EWakil Ketua I%3C/text%3E%3C/svg%3E",
+    "department": "Leadership"
+  },
+  {
+    "id": 3,
+    "name": "Rendra Wijaya",
+    "position": "Bendahara DPD Jawa Barat",
+    "title": "Treasurer - West Java Regional",
+    "phone": "+62 812-3456-7892",
+    "email": "rendra@backstagers.org",
+    "bio": "Ahli keuangan dengan track record solid dalam pengelolaan aset organisasi.",
+    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23f59e0b' width='400' height='500'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%23dc2626'/%3E%3Ctext x='200' y='300' font-size='24' fill='%23fff' text-anchor='middle' font-weight='bold'%3ERendra Wijaya%3C/text%3E%3Ctext x='200' y='340' font-size='18' fill='%23fef3c7' text-anchor='middle'%3EBendahara%3C/text%3E%3C/svg%3E",
+    "department": "Finance"
+  },
+  {
+    "id": 4,
+    "name": "Dewi Lestari",
+    "position": "Sekretaris DPD Jawa Barat",
+    "title": "Secretary - West Java Regional",
+    "phone": "+62 812-3456-7893",
+    "email": "dewi@backstagers.org",
+    "bio": "Koordinator komunikasi internal dan eksternal dengan keahlian administrasi.",
+    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%2306b6d4' width='400' height='500'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%237c3aed'/%3E%3Ctext x='200' y='300' font-size='24' fill='%23fff' text-anchor='middle' font-weight='bold'%3EDewi Lestari%3C/text%3E%3Ctext x='200' y='340' font-size='18' fill='%23cffafe' text-anchor='middle'%3ESekretaris%3C/text%3E%3C/svg%3E",
+    "department": "Administration"
+  },
+  {
+    "id": 5,
+    "name": "Ahmad Suryanto",
+    "position": "Kepala Bidang Produksi",
+    "title": "Head of Production Division",
+    "phone": "+62 812-3456-7894",
+    "email": "ahmad@backstagers.org",
+    "bio": "Expert dalam technical production dengan portofolio event berskala regional dan nasional.",
+    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%2310b981' width='400' height='500'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%23f97316'/%3E%3Ctext x='200' y='300' font-size='24' fill='%23fff' text-anchor='middle' font-weight='bold'%3EAhmad Suryanto%3C/text%3E%3Ctext x='200' y='340' font-size='18' fill='%23d1fae5' text-anchor='middle'%3EKepala Produksi%3C/text%3E%3C/svg%3E",
+    "department": "Production"
+  },
+  {
+    "id": 6,
+    "name": "Nina Oktarina",
+    "position": "Kepala Bidang Marketing & Publikasi",
+    "title": "Head of Marketing & Publication Division",
+    "phone": "+62 812-3456-7895",
+    "email": "nina@backstagers.org",
+    "bio": "Strategist pemasaran dengan keahlian brand building dan digital media Jawa Barat.",
+    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23ec4899' width='400' height='500'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%2314b8a6'/%3E%3Ctext x='200' y='300' font-size='24' fill='%23fff' text-anchor='middle' font-weight='bold'%3ENina Oktarina%3C/text%3E%3Ctext x='200' y='340' font-size='18' fill='%23fce7f3' text-anchor='middle'%3EKepala Marketing%3C/text%3E%3C/svg%3E",
+    "department": "Marketing"
+  }
+]

@@ -1,0 +1,262 @@
+[
+  {
+    "id": 1,
+    "name": "Roni Patoroni",
+    "position": "Director",
+    "company": "Ardan Mindworks",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Ardan Mindworks",
+    "image": "/logo-perusahaan/LOGO MINDWORKS 2017 W.png"
+  },
+  {
+    "id": 2,
+    "name": "Yeni Wahyuningsih",
+    "position": "Director",
+    "company": "Lima",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Lima",
+    "image": "/logo-perusahaan/Gandrung.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Herlan Susila",
+    "position": "Director",
+    "company": "NBA",
+    "email": "",
+    "phone": "",
+    "bio": "Director of NBA",
+    "image": "/logo-perusahaan/logo nba white@330x.png"
+  },
+  {
+    "id": 4,
+    "name": "Herviana Suminar",
+    "position": "Director",
+    "company": "NICE",
+    "email": "",
+    "phone": "",
+    "bio": "Director of NICE",
+    "image": "/logo-perusahaan/Nice.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Reky Hermawan",
+    "position": "Director",
+    "company": "Redbox",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Redbox",
+    "image": "/logo-perusahaan/REDBOX.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Inyo Tanius Saleh",
+    "position": "Director",
+    "company": "Rumah Event Indonesia",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Rumah Event Indonesia",
+    "image": "/logo-perusahaan/event-placeholder.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Mursito",
+    "position": "Director",
+    "company": "Siqlus",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Siqlus",
+    "image": "/logo-perusahaan/Siqlus.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Roni Nur MS",
+    "position": "Director",
+    "company": "CV Satria Prima Perkasa",
+    "email": "",
+    "phone": "",
+    "bio": "Director of CV Satria Prima Perkasa",
+    "image": "/logo-perusahaan/LOGO_SPP_CORP.png"
+  },
+  {
+    "id": 9,
+    "name": "Endang Hidayat",
+    "position": "Director",
+    "company": "CV Kukami Indonesia",
+    "email": "",
+    "phone": "",
+    "bio": "Director of CV Kukami Indonesia",
+    "image": "/logo-perusahaan/Kukami.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Rullyana Kamaludin",
+    "position": "Director",
+    "company": "Eleven B Entertainment",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Eleven B Entertainment",
+    "image": "/logo-perusahaan/event-placeholder.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Bayu Subekti",
+    "position": "Director",
+    "company": "PT Tiga Pesona Teknologi",
+    "email": "",
+    "phone": "",
+    "bio": "Director of PT Tiga Pesona Teknologi",
+    "image": "/logo-perusahaan/Tiga_Pesona_Teknologi.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Yosep Sobandi",
+    "position": "Director",
+    "company": "Dealpro",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Dealpro",
+    "image": "/logo-perusahaan/LOGO_DEALPRO.jpg"
+  },
+  {
+    "id": 13,
+    "name": "Yusup Saepulloh",
+    "position": "Director",
+    "company": "Trisi Project",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Trisi Project",
+    "image": "/logo-perusahaan/Logo_Trisi_Project.pdf"
+  },
+  {
+    "id": 14,
+    "name": "Ariyo Sulistijo",
+    "position": "Director",
+    "company": "KAT",
+    "email": "",
+    "phone": "",
+    "bio": "Director of KAT",
+    "image": "/logo-perusahaan/KAT.png"
+  },
+  {
+    "id": 15,
+    "name": "Budi Darmawan",
+    "position": "Director",
+    "company": "Masagi",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Masagi",
+    "image": "/logo-perusahaan/Masagi.jpg"
+  },
+  {
+    "id": 16,
+    "name": "Hary HB Sunarko",
+    "position": "Director",
+    "company": "Gandrung Events",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Gandrung Events",
+    "image": "/logo-perusahaan/Gandrung.jpg"
+  },
+  {
+    "id": 17,
+    "name": "Giovitano",
+    "position": "Director",
+    "company": "Atap Promotions",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Atap Promotions",
+    "image": "/logo-perusahaan/ATAP PROMOTIONS LOGO HORIZONTAL - WHITE RED-01 2.png"
+  },
+  {
+    "id": 18,
+    "name": "Andri Akmarsyah",
+    "position": "Director",
+    "company": "Jiva Events",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Jiva Events",
+    "image": "/logo-perusahaan/Jiva Event .jpg"
+  },
+  {
+    "id": 19,
+    "name": "Indra Nugraha S Sos",
+    "position": "Director",
+    "company": "CV. Laatansa Cahaya Anugrah",
+    "email": "",
+    "phone": "",
+    "bio": "Director of CV. Laatansa Cahaya Anugrah ",
+    "image": "/logo-perusahaan/CV._Laatansa_Cahaya_Anugrah_.jpg"
+  },
+  {
+    "id": 20,
+    "name": "Icha Donchu",
+    "position": "Director",
+    "company": "PT Mega Adreena Jaya",
+    "email": "",
+    "phone": "",
+    "bio": "Director of PT Mega Adreena Jaya",
+    "image": "/logo-perusahaan/PT_Mega_Adreena_Jaya.jpg"
+  },
+  {
+    "id": 21,
+    "name": "Inge",
+    "position": "Director",
+    "company": "PT. AVAS (INKRI, Religion Even5 management)",
+    "email": "",
+    "phone": "",
+    "bio": "Director of PT. AVAS (INKRI, Religion Even5 management)",
+    "image": "/logo-perusahaan/PT._AVAS_(INKRI,_Religion_Even5_management).jpg"
+  },
+  {
+    "id": 22,
+    "name": "Riksa Bakti Andayaguna",
+    "position": "Director",
+    "company": "D’Partners (PT Ramayana Bahana Antariksa)",
+    "email": "",
+    "phone": "",
+    "bio": "Director of D’Partners (PT Ramayana Bahana Antariksa)",
+    "image": "/logo-perusahaan/D’Partners_(PT_Ramayana_Bahana_Antariksa).jpg"
+  },
+  {
+    "id": 23,
+    "name": "Mochamad Andika",
+    "position": "Director",
+    "company": "PT Langit Sumber Media",
+    "email": "",
+    "phone": "",
+    "bio": "Director of PT Langit Sumber Media",
+    "image": "/logo-perusahaan/PT_Langit_Sumber_Media.jpg"
+  },
+  {
+    "id": 24,
+    "name": "Ratih Cinthia Dewi",
+    "position": "Director",
+    "company": "PT Astadeca Baswara Persada",
+    "email": "",
+    "phone": "",
+    "bio": "Director of PT Astadeca Baswara Persada",
+    "image": "/logo-perusahaan/PT_Astadeca_Baswara_Persada.jpg"
+  },
+  {
+    "id": 25,
+    "name": "Guriang",
+    "position": "Director",
+    "company": "Tiga Bintang",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Tiga Bintang",
+    "image": "/logo-perusahaan/Tiga_Bintang.jpg"
+  },
+  {
+    "id": 26,
+    "name": "Ricky",
+    "position": "Director",
+    "company": "Sauyunan",
+    "email": "",
+    "phone": "",
+    "bio": "Director of Sauyunan",
+    "image": "/logo-perusahaan/Sauyunan.jpg"
+  }
+]

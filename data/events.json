@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Workshop Teater Dasar",
+    "description": "Pembelajaran dasar tentang teknik akting dan pantomim",
+    "date": "2026-06-15",
+    "time": "19:00",
+    "location": "Studio A, Jakarta",
+    "image": "/events/workshop-teater.jpg",
+    "category": "workshop"
+  },
+  {
+    "id": 2,
+    "title": "Pertunjukan Tahunan Backstagers 2026",
+    "description": "Pertunjukan seni pertunjukan terbaik dari member Backstagers",
+    "date": "2026-07-20",
+    "time": "20:00",
+    "location": "Gedung Seni, Bandung",
+    "image": "/events/pertunjukan-tahunan.jpg",
+    "category": "performance"
+  }
+]
