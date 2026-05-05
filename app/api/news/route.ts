@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { getFileContent, updateFileContent } from '@/lib/github-utils';
 
 interface News {
   id: number;
@@ -16,22 +15,20 @@ interface News {
   featured: boolean;
 }
 
-const dataFilePath = path.join(process.cwd(), 'data', 'news.json');
+const DATA_PATH = 'data/news.json';
 
 // GET all news
 export async function GET() {
   try {
     console.log('📰 API GET /api/news');
     
-    if (!fs.existsSync(dataFilePath)) {
+    try {
+      const news: News[] = await getFileContent(DATA_PATH);
+      console.log('✅ Retrieved', news.length, 'news items');
+      return NextResponse.json(news);
+    } catch {
       return NextResponse.json([]);
     }
-    
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const news: News[] = JSON.parse(data);
-    
-    console.log('✅ Retrieved', news.length, 'news items');
-    return NextResponse.json(news);
   } catch (error) {
     console.error('❌ Error in GET /api/news:', error);
     return NextResponse.json({ error: 'Failed to read news' }, { status: 500 });
@@ -50,8 +47,7 @@ export async function POST(request: NextRequest) {
 
     const newNews = await request.json();
     
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const news: News[] = JSON.parse(data);
+    const news: News[] = await getFileContent(DATA_PATH);
     
     // Generate ID
     const maxId = Math.max(...news.map(n => n.id), 0);
@@ -62,7 +58,7 @@ export async function POST(request: NextRequest) {
     };
     
     news.push(newsItem);
-    fs.writeFileSync(dataFilePath, JSON.stringify(news, null, 2), 'utf-8');
+    await updateFileContent(DATA_PATH, news, `Create news: ${newsItem.title}`);
     
     console.log('✅ News created:', newsItem.title);
     return NextResponse.json({ message: 'News created successfully', news: newsItem });

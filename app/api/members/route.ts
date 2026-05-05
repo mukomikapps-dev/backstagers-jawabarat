@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { getFileContent, updateFileContent } from '@/lib/github-utils';
 
-const dataFilePath = path.join(process.cwd(), 'data', 'members.json');
+const DATA_PATH = 'data/members.json';
 
 // GET all members
 export async function GET() {
   try {
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const members = JSON.parse(data);
+    const members = await getFileContent(DATA_PATH);
     return NextResponse.json(members);
   } catch (error) {
+    console.error('Failed to read members:', error);
     return NextResponse.json({ error: 'Failed to read members' }, { status: 500 });
   }
 }
@@ -27,17 +26,17 @@ export async function POST(request: NextRequest) {
     }
 
     const newMember = await request.json();
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const members = JSON.parse(data);
+    const members = await getFileContent(DATA_PATH);
     
     const maxId = Math.max(...members.map((m: any) => m.id), 0);
     newMember.id = maxId + 1;
     
     members.push(newMember);
-    fs.writeFileSync(dataFilePath, JSON.stringify(members, null, 2));
+    await updateFileContent(DATA_PATH, members, `Add new member: ${newMember.name}`);
     
     return NextResponse.json(newMember, { status: 201 });
   } catch (error) {
+    console.error('Failed to create member:', error);
     return NextResponse.json({ error: 'Failed to create member' }, { status: 500 });
   }
 }
@@ -53,17 +52,17 @@ export async function PUT(request: NextRequest) {
     }
 
     const updatedMember = await request.json();
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    let members = JSON.parse(data);
+    let members = await getFileContent(DATA_PATH);
     
     members = members.map((m: any) => 
       m.id === updatedMember.id ? updatedMember : m
     );
     
-    fs.writeFileSync(dataFilePath, JSON.stringify(members, null, 2));
+    await updateFileContent(DATA_PATH, members, `Update member: ${updatedMember.name}`);
     
     return NextResponse.json(updatedMember);
   } catch (error) {
+    console.error('Failed to update member:', error);
     return NextResponse.json({ error: 'Failed to update member' }, { status: 500 });
   }
 }
@@ -79,14 +78,14 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { id } = await request.json();
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    let members = JSON.parse(data);
+    let members = await getFileContent(DATA_PATH);
     
     members = members.filter((m: any) => m.id !== id);
-    fs.writeFileSync(dataFilePath, JSON.stringify(members, null, 2));
+    await updateFileContent(DATA_PATH, members, `Delete member with id: ${id}`);
     
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('Failed to delete member:', error);
     return NextResponse.json({ error: 'Failed to delete member' }, { status: 500 });
   }
 }

@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { getFileContent, updateFileContent } from '@/lib/github-utils';
 
-const dataFilePath = path.join(process.cwd(), 'data', 'events.json');
+const DATA_PATH = 'data/events.json';
 
 // GET all events
 export async function GET() {
   try {
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const events = JSON.parse(data);
+    const events = await getFileContent(DATA_PATH);
     return NextResponse.json(events);
   } catch (error) {
+    console.error('Failed to read events:', error);
     return NextResponse.json({ error: 'Failed to read events' }, { status: 500 });
   }
 }
@@ -26,17 +25,17 @@ export async function POST(request: NextRequest) {
     }
 
     const newEvent = await request.json();
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const events = JSON.parse(data);
+    const events = await getFileContent(DATA_PATH);
     
     const maxId = Math.max(...events.map((e: any) => e.id), 0);
     newEvent.id = maxId + 1;
     
     events.push(newEvent);
-    fs.writeFileSync(dataFilePath, JSON.stringify(events, null, 2));
+    await updateFileContent(DATA_PATH, events, `Add new event: ${newEvent.title}`);
     
     return NextResponse.json(newEvent, { status: 201 });
   } catch (error) {
+    console.error('Failed to create event:', error);
     return NextResponse.json({ error: 'Failed to create event' }, { status: 500 });
   }
 }
@@ -52,17 +51,17 @@ export async function PUT(request: NextRequest) {
     }
 
     const updatedEvent = await request.json();
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    let events = JSON.parse(data);
+    let events = await getFileContent(DATA_PATH);
     
     events = events.map((e: any) => 
       e.id === updatedEvent.id ? updatedEvent : e
     );
     
-    fs.writeFileSync(dataFilePath, JSON.stringify(events, null, 2));
+    await updateFileContent(DATA_PATH, events, `Update event: ${updatedEvent.title}`);
     
     return NextResponse.json(updatedEvent);
   } catch (error) {
+    console.error('Failed to update event:', error);
     return NextResponse.json({ error: 'Failed to update event' }, { status: 500 });
   }
 }
@@ -78,14 +77,14 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { id } = await request.json();
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    let events = JSON.parse(data);
+    let events = await getFileContent(DATA_PATH);
     
     events = events.filter((e: any) => e.id !== id);
-    fs.writeFileSync(dataFilePath, JSON.stringify(events, null, 2));
+    await updateFileContent(DATA_PATH, events, `Delete event with id: ${id}`);
     
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('Failed to delete event:', error);
     return NextResponse.json({ error: 'Failed to delete event' }, { status: 500 });
   }
 }
