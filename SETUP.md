@@ -19,7 +19,7 @@ Website dinamis untuk organisasi Backstagers yang:
 ### Step 1: Install Dependencies
 
 ```bash
-cd /Users/sugenghariadi/backstagers/web
+cd /Users/sugenghariadi/backstagers
 npm install
 ```
 

@@ -4,7 +4,7 @@
 
 ### Development
 ```bash
-cd /Users/sugenghariadi/backstagers/web
+cd /Users/sugenghariadi/backstagers
 npm run dev              # Start dev server (http://localhost:3000)
 npm run build            # Build for production
 npm run start            # Start production server
@@ -39,7 +39,6 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 ## 📁 Important Files
 
 ```
-web/
 ├── .env.local                    # Environment variables (LOCAL ONLY)
 ├── data/
 │   ├── members.json             # Member data

@@ -16,7 +16,6 @@ Website organisasi Backstagers dengan Next.js, menggunakan JSON files untuk data
 ### 1. Install Dependencies
 
 ```bash
-cd web
 npm install
 ```
 
@@ -46,7 +45,6 @@ Buka [http://localhost:3000](http://localhost:3000)
 ## Struktur Project
 
 ```
-web/
 ├── app/
 │   ├── page.tsx                    # Homepage
 │   ├── api/
