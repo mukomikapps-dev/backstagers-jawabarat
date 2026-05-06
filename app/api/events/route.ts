@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getFileContent, updateFileContent } from '@/lib/github-utils';
-
-const DATA_PATH = 'data/events.json';
+import { supabaseAdmin } from '@/lib/supabase';
 
 // GET all events
 export async function GET() {
   try {
-    const events = await getFileContent(DATA_PATH);
-    return NextResponse.json(events);
+    const { data, error } = await supabaseAdmin
+      .from('events')
+      .select('*')
+      .order('date', { ascending: false });
+
+    if (error) {
+      console.error('Failed to fetch events:', error);
+      return NextResponse.json({ error: 'Failed to fetch events' }, { status: 500 });
+    }
+
+    return NextResponse.json(data || []);
   } catch (error) {
     console.error('Failed to read events:', error);
     return NextResponse.json({ error: 'Failed to read events' }, { status: 500 });
@@ -25,22 +32,26 @@ export async function POST(request: NextRequest) {
     }
 
     const newEvent = await request.json();
-    const events = await getFileContent(DATA_PATH);
-    
-    const maxId = Math.max(...events.map((e: any) => e.id), 0);
-    newEvent.id = maxId + 1;
-    
-    events.push(newEvent);
-    await updateFileContent(DATA_PATH, events, `Add new event: ${newEvent.title}`);
-    
-    return NextResponse.json(newEvent, { status: 201 });
+
+    const { data, error } = await supabaseAdmin
+      .from('events')
+      .insert([newEvent])
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Failed to create event:', error);
+      return NextResponse.json({ error: 'Failed to create event' }, { status: 500 });
+    }
+
+    return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error('Failed to create event:', error);
     return NextResponse.json({ error: 'Failed to create event' }, { status: 500 });
   }
 }
 
-// PUT - Update event
+// PUT - Update event (admin only)
 export async function PUT(request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -49,6 +60,66 @@ export async function PUT(request: NextRequest) {
     if (token !== process.env.ADMIN_TOKEN) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const body = await request.json();
+    const { id, ...updateData } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('events')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Failed to update event:', error);
+      return NextResponse.json({ error: 'Failed to update event' }, { status: 500 });
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Failed to update event:', error);
+    return NextResponse.json({ error: 'Failed to update event' }, { status: 500 });
+  }
+}
+
+// DELETE - Delete event (admin only)
+export async function DELETE(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get('authorization');
+    const token = authHeader?.replace('Bearer ', '');
+    
+    if (token !== process.env.ADMIN_TOKEN) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    }
+
+    const { error } = await supabaseAdmin
+      .from('events')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Failed to delete event:', error);
+      return NextResponse.json({ error: 'Failed to delete event' }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Failed to delete event:', error);
+    return NextResponse.json({ error: 'Failed to delete event' }, { status: 500 });
+  }
+}
 
     const updatedEvent = await request.json();
     let events = await getFileContent(DATA_PATH);

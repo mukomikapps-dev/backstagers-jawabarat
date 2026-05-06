@@ -1,22 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-interface News {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
-  content: string;
-  image: string;
-  videoUrl: string;
-  category: string;
-  author: string;
-  date: string;
-  featured: boolean;
-}
-
-const dataFilePath = path.join(process.cwd(), 'data', 'news.json');
+import { supabaseAdmin } from '@/lib/supabase';
 
 // GET single news by ID
 export async function GET(
@@ -26,28 +9,24 @@ export async function GET(
   try {
     const { id } = await params;
     const newsId = parseInt(id);
-    console.log('🔍 API GET /news/[id] - ID:', newsId);
-    
-    if (!fs.existsSync(dataFilePath)) {
-      return NextResponse.json({ error: 'News file not found' }, { status: 500 });
-    }
-    
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const newsList: News[] = JSON.parse(data);
-    
-    const newsItem = newsList.find((n: News) => n.id === newsId);
-    
-    if (!newsItem) {
-      console.error('❌ News ID not found:', newsId);
+
+    const { data, error } = await supabaseAdmin
+      .from('news')
+      .select('*')
+      .eq('id', newsId)
+      .single();
+
+    if (error) {
+      console.error('Failed to fetch news:', error);
       return NextResponse.json({ error: 'News not found' }, { status: 404 });
     }
-    
-    console.log('✅ News found:', newsItem.title);
-    return NextResponse.json(newsItem);
+
+    return NextResponse.json(data);
   } catch (error) {
-    console.error('❌ Error in GET /api/news/[id]:', error);
-    return NextResponse.json({ error: 'Failed to read news', details: String(error) }, { status: 500 });
+    console.error('Error in GET /api/news/[id]:', error);
+    return NextResponse.json({ error: 'Failed to read news' }, { status: 500 });
   }
+}
 }
 
 // PUT - Update news (admin only)

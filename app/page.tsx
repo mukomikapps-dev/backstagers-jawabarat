@@ -45,15 +45,34 @@ export default function Home() {
           fetch('/api/news')
         ]);
         
-        const membersData = await membersRes.json();
-        const orgData = await orgRes.json();
-        const newsData = await newsRes.json();
+        if (!membersRes.ok) {
+          console.error('Failed to fetch members:', membersRes.status);
+          setMembers([]);
+        } else {
+          const membersData = await membersRes.json();
+          setMembers(Array.isArray(membersData) ? membersData : []);
+        }
         
-        setMembers(membersData);
-        setOrg(orgData);
-        setNews(newsData);
+        if (!orgRes.ok) {
+          console.error('Failed to fetch organization:', orgRes.status);
+          setOrg(null);
+        } else {
+          const orgData = await orgRes.json();
+          setOrg(orgData);
+        }
+        
+        if (!newsRes.ok) {
+          console.error('Failed to fetch news:', newsRes.status);
+          setNews([]);
+        } else {
+          const newsData = await newsRes.json();
+          setNews(Array.isArray(newsData) ? newsData : []);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
+        setMembers([]);
+        setOrg(null);
+        setNews([]);
       } finally {
         setLoading(false);
       }

@@ -80,17 +80,43 @@ export default function AdminDashboard() {
         fetch('/api/news')
       ]);
 
-      const membersData = await membersRes.json();
-      const eventsData = await eventsRes.json();
-      const orgData = await orgRes.json();
-      const newsData = await newsRes.json();
+      if (!membersRes.ok) {
+        console.error('Failed to fetch members:', membersRes.status);
+        setMembers([]);
+      } else {
+        const membersData = await membersRes.json();
+        setMembers(Array.isArray(membersData) ? membersData : []);
+      }
 
-      setMembers(membersData);
-      setEvents(eventsData);
-      setOrganization(orgData);
-      setNews(newsData);
+      if (!eventsRes.ok) {
+        console.error('Failed to fetch events:', eventsRes.status);
+        setEvents([]);
+      } else {
+        const eventsData = await eventsRes.json();
+        setEvents(Array.isArray(eventsData) ? eventsData : []);
+      }
+
+      if (!orgRes.ok) {
+        console.error('Failed to fetch organization:', orgRes.status);
+        setOrganization(null);
+      } else {
+        const orgData = await orgRes.json();
+        setOrganization(orgData);
+      }
+
+      if (!newsRes.ok) {
+        console.error('Failed to fetch news:', newsRes.status);
+        setNews([]);
+      } else {
+        const newsData = await newsRes.json();
+        setNews(Array.isArray(newsData) ? newsData : []);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
+      setMembers([]);
+      setEvents([]);
+      setOrganization(null);
+      setNews([]);
     } finally {
       setLoading(false);
     }
