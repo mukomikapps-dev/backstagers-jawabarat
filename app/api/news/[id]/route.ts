@@ -27,7 +27,6 @@ export async function GET(
     return NextResponse.json({ error: 'Failed to read news' }, { status: 500 });
   }
 }
-}
 
 // PUT - Update news (admin only)
 export async function PUT(
@@ -44,29 +43,28 @@ export async function PUT(
     }
 
     const newsId = parseInt(id);
-    const updatedNews = await request.json();
-    
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const newsList: News[] = JSON.parse(data);
-    
-    const index = newsList.findIndex((n: News) => n.id === newsId);
-    
-    if (index === -1) {
-      return NextResponse.json({ error: 'News not found' }, { status: 404 });
+    const updateData = await request.json();
+
+    const { data, error } = await supabaseAdmin
+      .from('news')
+      .update(updateData)
+      .eq('id', newsId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Failed to update news:', error);
+      return NextResponse.json({ error: 'Failed to update news' }, { status: 500 });
     }
-    
-    newsList[index] = { ...newsList[index], ...updatedNews, id: newsId };
-    
-    fs.writeFileSync(dataFilePath, JSON.stringify(newsList, null, 2), 'utf-8');
-    
-    return NextResponse.json({ message: 'News updated successfully', news: newsList[index] });
-  } catch (err) {
-    console.error('Error updating news:', err);
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Error updating news:', error);
     return NextResponse.json({ error: 'Failed to update news' }, { status: 500 });
   }
 }
 
-// DELETE single news (admin only)
+// DELETE - Delete news (admin only)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -81,20 +79,20 @@ export async function DELETE(
     }
 
     const newsId = parseInt(id);
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const newsList: News[] = JSON.parse(data);
-    
-    const filteredNews = newsList.filter((n: News) => n.id !== newsId);
-    
-    if (filteredNews.length === newsList.length) {
-      return NextResponse.json({ error: 'News not found' }, { status: 404 });
+
+    const { error } = await supabaseAdmin
+      .from('news')
+      .delete()
+      .eq('id', newsId);
+
+    if (error) {
+      console.error('Failed to delete news:', error);
+      return NextResponse.json({ error: 'Failed to delete news' }, { status: 500 });
     }
-    
-    fs.writeFileSync(dataFilePath, JSON.stringify(filteredNews, null, 2), 'utf-8');
-    
-    return NextResponse.json({ message: 'News deleted successfully' });
-  } catch (err) {
-    console.error('Error deleting news:', err);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting news:', error);
     return NextResponse.json({ error: 'Failed to delete news' }, { status: 500 });
   }
 }

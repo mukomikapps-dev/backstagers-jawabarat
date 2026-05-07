@@ -1,20 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase';
+import { getFileContent, updateFileContent } from '@/lib/github-utils';
+
+const DATA_PATH = 'data/organization.json';
 
 // GET organization info
 export async function GET() {
   try {
-    const { data, error } = await supabaseAdmin
-      .from('organization')
-      .select('*')
-      .single();
-
-    if (error) {
-      console.error('Failed to fetch organization:', error);
-      return NextResponse.json({ error: 'Failed to fetch organization' }, { status: 500 });
-    }
-
-    return NextResponse.json(data);
+    const org = await getFileContent(DATA_PATH);
+    return NextResponse.json(org);
   } catch (error) {
     console.error('Failed to read organization data:', error);
     return NextResponse.json({ error: 'Failed to read organization data' }, { status: 500 });
@@ -32,21 +25,9 @@ export async function PUT(request: NextRequest) {
     }
 
     const updatedOrg = await request.json();
-    const { id, ...updateData } = updatedOrg;
-
-    const { data, error } = await supabaseAdmin
-      .from('organization')
-      .update(updateData)
-      .eq('id', 1) // Assuming single organization row with id=1
-      .select()
-      .single();
-
-    if (error) {
-      console.error('Failed to update organization:', error);
-      return NextResponse.json({ error: 'Failed to update organization' }, { status: 500 });
-    }
-
-    return NextResponse.json(data);
+    await updateFileContent(DATA_PATH, updatedOrg, 'Update organization info');
+    
+    return NextResponse.json(updatedOrg);
   } catch (error) {
     console.error('Failed to update organization:', error);
     return NextResponse.json({ error: 'Failed to update organization' }, { status: 500 });

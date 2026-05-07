@@ -3,7 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 
 // GET single member by ID
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -43,11 +43,11 @@ export async function PUT(
     }
 
     const memberId = parseInt(id);
-    const updatedMember = await request.json();
-    
+    const updateData = await request.json();
+
     const { data, error } = await supabaseAdmin
       .from('members')
-      .update(updatedMember)
+      .update(updateData)
       .eq('id', memberId)
       .select()
       .single();
@@ -57,7 +57,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Failed to update member' }, { status: 500 });
     }
 
-    return NextResponse.json({ message: 'Member updated successfully', member: data });
+    return NextResponse.json(data);
   } catch (error) {
     console.error('Error updating member:', error);
     return NextResponse.json({ error: 'Failed to update member' }, { status: 500 });
@@ -90,43 +90,9 @@ export async function DELETE(
       return NextResponse.json({ error: 'Failed to delete member' }, { status: 500 });
     }
 
-    return NextResponse.json({ message: 'Member deleted successfully' });
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting member:', error);
-    return NextResponse.json({ error: 'Failed to delete member' }, { status: 500 });
-  }
-}
-}
-
-// DELETE single member (admin only)
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params;
-    const authHeader = request.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
-    
-    if (token !== process.env.ADMIN_TOKEN) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const memberId = parseInt(id);
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const members: Member[] = JSON.parse(data);
-    
-    const filteredMembers = members.filter((m: Member) => m.id !== memberId);
-    
-    if (filteredMembers.length === members.length) {
-      return NextResponse.json({ error: 'Member not found' }, { status: 404 });
-    }
-    
-    fs.writeFileSync(dataFilePath, JSON.stringify(filteredMembers, null, 2), 'utf-8');
-    
-    return NextResponse.json({ message: 'Member deleted successfully' });
-  } catch (err) {
-    console.error('Error deleting member:', err);
     return NextResponse.json({ error: 'Failed to delete member' }, { status: 500 });
   }
 }

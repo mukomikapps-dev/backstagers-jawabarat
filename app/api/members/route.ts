@@ -24,7 +24,6 @@ export async function GET() {
 // POST - Add new member (admin only)
 export async function POST(request: NextRequest) {
   try {
-    // Check authorization
     const authHeader = request.headers.get('authorization');
     const token = authHeader?.replace('Bearer ', '');
     
@@ -98,8 +97,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
+    const { id } = await request.json();
 
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
@@ -115,45 +113,6 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to delete member' }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Failed to delete member:', error);
-    return NextResponse.json({ error: 'Failed to delete member' }, { status: 500 });
-  }
-}
-
-    const updatedMember = await request.json();
-    let members = await getFileContent(DATA_PATH);
-    
-    members = members.map((m: any) => 
-      m.id === updatedMember.id ? updatedMember : m
-    );
-    
-    await updateFileContent(DATA_PATH, members, `Update member: ${updatedMember.name}`);
-    
-    return NextResponse.json(updatedMember);
-  } catch (error) {
-    console.error('Failed to update member:', error);
-    return NextResponse.json({ error: 'Failed to update member' }, { status: 500 });
-  }
-}
-
-// DELETE - Remove member
-export async function DELETE(request: NextRequest) {
-  try {
-    const authHeader = request.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
-    
-    if (token !== process.env.ADMIN_TOKEN) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { id } = await request.json();
-    let members = await getFileContent(DATA_PATH);
-    
-    members = members.filter((m: any) => m.id !== id);
-    await updateFileContent(DATA_PATH, members, `Delete member with id: ${id}`);
-    
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Failed to delete member:', error);

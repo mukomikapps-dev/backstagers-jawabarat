@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 
-// GET all news
+// GET all published news
 export async function GET() {
   try {
     const { data, error } = await supabaseAdmin
@@ -17,7 +17,7 @@ export async function GET() {
 
     return NextResponse.json(data || []);
   } catch (error) {
-    console.error('Error in GET /api/news:', error);
+    console.error('Failed to read news:', error);
     return NextResponse.json({ error: 'Failed to read news' }, { status: 500 });
   }
 }
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     const newNews = await request.json();
-    
+
     const { data, error } = await supabaseAdmin
       .from('news')
       .insert([newNews])
@@ -98,8 +98,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
+    const { id } = await request.json();
 
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
@@ -119,24 +118,5 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     console.error('Failed to delete news:', error);
     return NextResponse.json({ error: 'Failed to delete news' }, { status: 500 });
-  }
-}
-    
-    // Generate ID
-    const maxId = Math.max(...news.map(n => n.id), 0);
-    const newsItem: News = {
-      id: maxId + 1,
-      ...newNews,
-      date: newNews.date || new Date().toISOString().split('T')[0]
-    };
-    
-    news.push(newsItem);
-    await updateFileContent(DATA_PATH, news, `Create news: ${newsItem.title}`);
-    
-    console.log('✅ News created:', newsItem.title);
-    return NextResponse.json({ message: 'News created successfully', news: newsItem });
-  } catch (err) {
-    console.error('Error creating news:', err);
-    return NextResponse.json({ error: 'Failed to create news' }, { status: 500 });
   }
 }

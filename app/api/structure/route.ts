@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 
-// GET all structure members
+// GET all structure
 export async function GET() {
   try {
     const { data, error } = await supabaseAdmin
@@ -16,12 +16,12 @@ export async function GET() {
 
     return NextResponse.json(data || []);
   } catch (error) {
-    console.error('Error reading structure data:', error);
+    console.error('Failed to read structure:', error);
     return NextResponse.json({ error: 'Failed to read structure' }, { status: 500 });
   }
 }
 
-// POST - Add new structure member (admin only)
+// POST - Add new structure (admin only)
 export async function POST(request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -31,27 +31,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const newMember = await request.json();
+    const newItem = await request.json();
 
     const { data, error } = await supabaseAdmin
       .from('structure')
-      .insert([newMember])
+      .insert([newItem])
       .select()
       .single();
 
     if (error) {
-      console.error('Failed to create structure member:', error);
-      return NextResponse.json({ error: 'Failed to create structure member' }, { status: 500 });
+      console.error('Failed to create structure:', error);
+      return NextResponse.json({ error: 'Failed to create structure' }, { status: 500 });
     }
 
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
-    console.error('Failed to create structure member:', error);
-    return NextResponse.json({ error: 'Failed to create structure member' }, { status: 500 });
+    console.error('Failed to create structure:', error);
+    return NextResponse.json({ error: 'Failed to create structure' }, { status: 500 });
   }
 }
 
-// PUT - Update structure member (admin only)
+// PUT - Update structure (admin only)
 export async function PUT(request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -76,18 +76,18 @@ export async function PUT(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Failed to update structure member:', error);
-      return NextResponse.json({ error: 'Failed to update structure member' }, { status: 500 });
+      console.error('Failed to update structure:', error);
+      return NextResponse.json({ error: 'Failed to update structure' }, { status: 500 });
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Failed to update structure member:', error);
-    return NextResponse.json({ error: 'Failed to update structure member' }, { status: 500 });
+    console.error('Failed to update structure:', error);
+    return NextResponse.json({ error: 'Failed to update structure' }, { status: 500 });
   }
 }
 
-// DELETE - Delete structure member (admin only)
+// DELETE - Delete structure (admin only)
 export async function DELETE(request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -97,8 +97,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
+    const { id } = await request.json();
 
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
@@ -110,51 +109,13 @@ export async function DELETE(request: NextRequest) {
       .eq('id', id);
 
     if (error) {
-      console.error('Failed to delete structure member:', error);
-      return NextResponse.json({ error: 'Failed to delete structure member' }, { status: 500 });
+      console.error('Failed to delete structure:', error);
+      return NextResponse.json({ error: 'Failed to delete structure' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Failed to delete structure member:', error);
-    return NextResponse.json({ error: 'Failed to delete structure member' }, { status: 500 });
-  }
-}
-}
-
-export async function GET() {
-  try {
-    console.log('📋 API GET /api/structure');
-    const data = getData();
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error('Error fetching structure:', error);
-    return NextResponse.json({ error: 'Failed to fetch structure' }, { status: 500 });
-  }
-}
-
-export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    const adminToken = process.env.ADMIN_TOKEN;
-
-    if (!token || token !== adminToken) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const data = getData();
-    const newMember: StructureMember = {
-      id: Math.max(...data.map(m => m.id), 0) + 1,
-      ...body
-    };
-
-    data.push(newMember);
-    saveData(data);
-
-    return NextResponse.json(newMember, { status: 201 });
-  } catch (error) {
-    console.error('Error creating structure member:', error);
-    return NextResponse.json({ error: 'Failed to create member' }, { status: 500 });
+    console.error('Failed to delete structure:', error);
+    return NextResponse.json({ error: 'Failed to delete structure' }, { status: 500 });
   }
 }
