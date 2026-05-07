@@ -41,10 +41,10 @@ export default function Navbar() {
   return (
     <header className="border-b border-gray-700 dark:border-gray-600 sticky top-0 z-50 bg-white dark:bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        {/* Logo */}
+        {/* Logo - Dynamic based on theme */}
         <div className="flex items-center space-x-3">
           <img 
-            src="/logo_backstagers_jawabarat.png" 
+            src={theme === 'light' ? '/logo_backstagers_jawabarat_light.png' : '/logo_backstagers_jawabarat.png'} 
             alt="Backstagers DPD Jawa Barat" 
             className="h-10 w-auto" 
           />

@@ -17,12 +17,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Apply theme to DOM
   const applyTheme = (themeValue: Theme) => {
+    const html = document.documentElement;
     if (themeValue === 'dark') {
-      document.documentElement.classList.add('dark');
-      document.documentElement.style.colorScheme = 'dark';
+      html.classList.add('dark');
+      html.style.backgroundColor = '#000000';
+      html.style.color = '#ffffff';
     } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.style.colorScheme = 'light';
+      html.classList.remove('dark');
+      html.style.backgroundColor = '#ffffff';
+      html.style.color = '#000000';
     }
   };
 
