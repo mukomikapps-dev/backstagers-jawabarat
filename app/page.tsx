@@ -153,7 +153,7 @@ export default function Home() {
               </button>
             </div>
             <div className={theme === 'light' ? 'h-96 rounded-lg overflow-hidden border border-gray-300' : 'h-96 rounded-lg overflow-hidden border border-gray-700'}>
-              <img src="/hero-stage.jpg" alt="Backstagers Production" className="w-full h-full object-cover" />
+              <img src={theme === 'light' ? '/hero-stage-light.jpg' : '/hero-stage.jpg'} alt="Backstagers Production" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
