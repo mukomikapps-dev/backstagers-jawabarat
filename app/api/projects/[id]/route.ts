@@ -2,10 +2,10 @@ import { supabaseAdmin } from '@/lib/supabase';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const projectId = parseInt(id, 10);
 
     if (isNaN(projectId)) {
@@ -32,7 +32,7 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = request.headers.get('Authorization')?.split(' ')[1];
@@ -40,7 +40,7 @@ export async function PUT(
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const projectId = parseInt(id, 10);
 
     if (isNaN(projectId)) {
@@ -71,7 +71,7 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = request.headers.get('Authorization')?.split(' ')[1];
@@ -79,7 +79,7 @@ export async function DELETE(
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const projectId = parseInt(id, 10);
 
     if (isNaN(projectId)) {

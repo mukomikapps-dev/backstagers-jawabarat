@@ -135,7 +135,7 @@ export default function AudioTechAssistant() {
                 <ul className="text-gray-300 text-xs space-y-1">
                   <li>• Untuk acara indoor: 85-95 dB</li>
                   <li>• Untuk festival outdoor: 95-105 dB</li>
-                  <li>• Gunakan protection: > 85 dB</li>
+                  <li>• Gunakan protection: {'>'} 85 dB</li>
                   <li>• Bass perlu 3-6x lebih banyak power</li>
                 </ul>
               </div>
