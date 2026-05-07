@@ -17,6 +17,7 @@ const navItems: NavItem[] = [
   { name: 'Berita', href: '/admin/news', icon: '📰' },
   { name: 'Struktur', href: '/admin/struktur', icon: '🏢' },
   { name: 'Organisasi', href: '/admin/organization', icon: '📋' },
+  { name: 'Pengaturan', href: '/admin/settings', icon: '⚙️' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
