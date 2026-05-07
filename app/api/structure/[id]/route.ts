@@ -1,35 +1,7 @@
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
 import { NextRequest, NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabase';
 
-interface StructureMember {
-  id: number;
-  name: string;
-  position: string;
-  title: string;
-  phone: string;
-  email: string;
-  bio: string;
-  image: string;
-  department: string;
-}
-
-const dataPath = join(process.cwd(), 'data', 'structure.json');
-
-function getData(): StructureMember[] {
-  try {
-    const data = readFileSync(dataPath, 'utf-8');
-    return JSON.parse(data);
-  } catch (error) {
-    console.error('Error reading structure data:', error);
-    return [];
-  }
-}
-
-function saveData(data: StructureMember[]): void {
-  writeFileSync(dataPath, JSON.stringify(data, null, 2));
-}
-
+// GET single structure member by ID
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -37,22 +9,26 @@ export async function GET(
   try {
     const { id } = await params;
     const memberId = parseInt(id);
-    console.log('📋 API GET /structure/[id] - ID:', memberId);
 
-    const data = getData();
-    const member = data.find(m => m.id === memberId);
+    const { data, error } = await supabaseAdmin
+      .from('structure')
+      .select('*')
+      .eq('id', memberId)
+      .single();
 
-    if (!member) {
+    if (error) {
+      console.error('Failed to fetch structure member:', error);
       return NextResponse.json({ error: 'Member not found' }, { status: 404 });
     }
 
-    return NextResponse.json(member);
+    return NextResponse.json(data);
   } catch (error) {
     console.error('Error fetching structure member:', error);
     return NextResponse.json({ error: 'Failed to fetch member' }, { status: 500 });
   }
 }
 
+// PUT - Update structure member (admin only)
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -60,33 +36,35 @@ export async function PUT(
   try {
     const { id } = await params;
     const memberId = parseInt(id);
-    const body = await request.json();
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    const adminToken = process.env.ADMIN_TOKEN;
-
-    console.log('📋 API PUT /structure/[id] - ID:', memberId);
-
-    if (!token || token !== adminToken) {
+    const authHeader = request.headers.get('authorization');
+    const token = authHeader?.replace('Bearer ', '');
+    
+    if (token !== process.env.ADMIN_TOKEN) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const data = getData();
-    const index = data.findIndex(m => m.id === memberId);
+    const updateData = await request.json();
 
-    if (index === -1) {
-      return NextResponse.json({ error: 'Member not found' }, { status: 404 });
+    const { data, error } = await supabaseAdmin
+      .from('structure')
+      .update(updateData)
+      .eq('id', memberId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Failed to update structure member:', error);
+      return NextResponse.json({ error: 'Failed to update member' }, { status: 500 });
     }
 
-    data[index] = { ...data[index], ...body, id: memberId };
-    saveData(data);
-
-    return NextResponse.json(data[index]);
+    return NextResponse.json(data);
   } catch (error) {
     console.error('Error updating structure member:', error);
     return NextResponse.json({ error: 'Failed to update member' }, { status: 500 });
   }
 }
 
+// DELETE - Delete structure member (admin only)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -94,23 +72,23 @@ export async function DELETE(
   try {
     const { id } = await params;
     const memberId = parseInt(id);
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    const adminToken = process.env.ADMIN_TOKEN;
-
-    console.log('🗑️ API DELETE /structure/[id] - ID:', memberId);
-
-    if (!token || token !== adminToken) {
+    const authHeader = request.headers.get('authorization');
+    const token = authHeader?.replace('Bearer ', '');
+    
+    if (token !== process.env.ADMIN_TOKEN) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const data = getData();
-    const filtered = data.filter(m => m.id !== memberId);
+    const { error } = await supabaseAdmin
+      .from('structure')
+      .delete()
+      .eq('id', memberId);
 
-    if (filtered.length === data.length) {
-      return NextResponse.json({ error: 'Member not found' }, { status: 404 });
+    if (error) {
+      console.error('Failed to delete structure member:', error);
+      return NextResponse.json({ error: 'Failed to delete member' }, { status: 500 });
     }
 
-    saveData(filtered);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting structure member:', error);

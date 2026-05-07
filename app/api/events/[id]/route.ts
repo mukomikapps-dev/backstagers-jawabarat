@@ -1,51 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-interface Event {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  image: string;
-  category: string;
-}
-
-const dataFilePath = path.join(process.cwd(), 'data', 'events.json');
+import { supabaseAdmin } from '@/lib/supabase';
 
 // GET single event by ID
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
     const eventId = parseInt(id);
-    console.log('🔍 API GET /events/[id] - ID:', eventId);
-    
-    if (!fs.existsSync(dataFilePath)) {
-      console.error('❌ Events file not found');
-      return NextResponse.json({ error: 'Events file not found' }, { status: 500 });
-    }
-    
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const events: Event[] = JSON.parse(data);
-    
-    console.log('📊 Total events in file:', events.length);
-    const event = events.find((e: Event) => e.id === eventId);
-    
-    if (!event) {
-      console.error('❌ Event ID not found:', eventId);
+
+    const { data, error } = await supabaseAdmin
+      .from('events')
+      .select('*')
+      .eq('id', eventId)
+      .single();
+
+    if (error) {
+      console.error('Failed to fetch event:', error);
       return NextResponse.json({ error: 'Event not found' }, { status: 404 });
     }
-    
-    console.log('✅ Event found:', event.title);
-    return NextResponse.json(event);
+
+    return NextResponse.json(data);
   } catch (error) {
-    console.error('❌ Error in GET /api/events/[id]:', error);
-    return NextResponse.json({ error: 'Failed to read event', details: String(error) }, { status: 500 });
+    console.error('Error in GET /api/events/[id]:', error);
+    return NextResponse.json({ error: 'Failed to read event' }, { status: 500 });
   }
 }
 
@@ -64,29 +43,28 @@ export async function PUT(
     }
 
     const eventId = parseInt(id);
-    const updatedEvent = await request.json();
-    
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const events: Event[] = JSON.parse(data);
-    
-    const index = events.findIndex((e: Event) => e.id === eventId);
-    
-    if (index === -1) {
-      return NextResponse.json({ error: 'Event not found' }, { status: 404 });
+    const updateData = await request.json();
+
+    const { data, error } = await supabaseAdmin
+      .from('events')
+      .update(updateData)
+      .eq('id', eventId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Failed to update event:', error);
+      return NextResponse.json({ error: 'Failed to update event' }, { status: 500 });
     }
-    
-    events[index] = { ...events[index], ...updatedEvent, id: eventId };
-    
-    fs.writeFileSync(dataFilePath, JSON.stringify(events, null, 2), 'utf-8');
-    
-    return NextResponse.json({ message: 'Event updated successfully', event: events[index] });
-  } catch (err) {
-    console.error('Error updating event:', err);
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Error updating event:', error);
     return NextResponse.json({ error: 'Failed to update event' }, { status: 500 });
   }
 }
 
-// DELETE single event (admin only)
+// DELETE - Delete event (admin only)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -101,20 +79,20 @@ export async function DELETE(
     }
 
     const eventId = parseInt(id);
-    const data = fs.readFileSync(dataFilePath, 'utf-8');
-    const events: Event[] = JSON.parse(data);
-    
-    const filteredEvents = events.filter((e: Event) => e.id !== eventId);
-    
-    if (filteredEvents.length === events.length) {
-      return NextResponse.json({ error: 'Event not found' }, { status: 404 });
+
+    const { error } = await supabaseAdmin
+      .from('events')
+      .delete()
+      .eq('id', eventId);
+
+    if (error) {
+      console.error('Failed to delete event:', error);
+      return NextResponse.json({ error: 'Failed to delete event' }, { status: 500 });
     }
-    
-    fs.writeFileSync(dataFilePath, JSON.stringify(filteredEvents, null, 2), 'utf-8');
-    
-    return NextResponse.json({ message: 'Event deleted successfully' });
-  } catch (err) {
-    console.error('Error deleting event:', err);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting event:', error);
     return NextResponse.json({ error: 'Failed to delete event' }, { status: 500 });
   }
 }
