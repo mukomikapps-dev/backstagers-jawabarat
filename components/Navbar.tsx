@@ -39,7 +39,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="border-b border-gray-700 dark:border-gray-600 sticky top-0 z-50 bg-white dark:bg-black">
+    <header className={`border-b sticky top-0 z-50 ${theme === 'light' ? 'bg-white border-gray-300' : 'bg-black border-gray-700'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         {/* Logo - Dynamic based on theme */}
         <div className="flex items-center space-x-3">
@@ -61,7 +61,7 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <button className="border border-black dark:border-white text-black dark:text-white px-6 py-2 text-sm font-bold hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition">
+          <button className={`${theme === 'light' ? 'border border-black text-black hover:bg-black hover:text-white' : 'border border-white text-white hover:bg-white hover:text-black'} px-6 py-2 text-sm font-bold transition`}>
             HUBUNGI KAMI
           </button>
           {/* Theme Toggle */}
@@ -118,7 +118,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white dark:bg-black border-t border-gray-700 dark:border-gray-600 animate-in fade-in">
+        <div className={`md:hidden ${theme === 'light' ? 'bg-white border-gray-300' : 'bg-black border-gray-700'} border-t animate-in fade-in`}>
           <div className="px-4 py-4 space-y-3">
             {navLinks.map((link) => (
               <a
@@ -130,7 +130,7 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
-            <button className="w-full mt-4 border border-black dark:border-white text-black dark:text-white px-6 py-2 text-sm font-bold hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition">
+            <button className={`w-full mt-4 px-6 py-2 text-sm font-bold transition ${theme === 'light' ? 'border border-black text-black hover:bg-black hover:text-white' : 'border border-white text-white hover:bg-white hover:text-black'}`}>
               HUBUNGI KAMI
             </button>
           </div>
