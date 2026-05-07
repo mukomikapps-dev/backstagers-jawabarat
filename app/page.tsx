@@ -152,7 +152,7 @@ export default function Home() {
                 LAYANAN KAMI
               </button>
             </div>
-            <div className={theme === 'light' ? 'h-96 rounded-lg overflow-hidden border border-gray-300' : 'h-96 rounded-lg overflow-hidden border border-gray-700'}>
+            <div className={theme === 'light' ? 'h-96 rounded-lg overflow-hidden' : 'h-96 rounded-lg overflow-hidden'}>
               <img src={theme === 'light' ? '/hero-img-light.png' : '/hero-img.png'} alt="Backstagers Production" className="w-full h-full object-cover" />
             </div>
           </div>
