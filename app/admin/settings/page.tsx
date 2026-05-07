@@ -21,18 +21,33 @@ export default function SettingsPage() {
   const router = useRouter();
   const [settings, setSettings] = useState<Settings | null>(null);
   const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const fetchSettings = async () => {
     try {
       const res = await fetch('/api/settings');
-      if (!res.ok) throw new Error('Failed to fetch settings');
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error('Settings fetch error:', errorData);
+      }
       const data = await res.json();
       setSettings(data);
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'Unknown error');
+      console.error('Failed to fetch settings:', e);
+      // Set default settings even on error
+      setSettings({
+        site_title: 'Backstagers - Jawa Barat',
+        site_description: 'Organisasi Profesional Event & Entertainment',
+        maintenance_mode: false,
+        maintenance_message: 'Situs sedang dalam pemeliharaan. Silakan kembali lagi nanti.',
+        seo_keywords: 'event, entertainment, backstagers, jawa barat',
+        social_media: {
+          instagram: 'https://instagram.com/backstagers',
+          facebook: 'https://facebook.com/backstagers',
+          twitter: 'https://twitter.com/backstagers',
+        },
+      });
     } finally {
       setLoading(false);
     }
@@ -62,15 +77,17 @@ export default function SettingsPage() {
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'Unknown error');
+      console.error('Error saving settings:', e);
     } finally {
       setSaving(false);
     }
   };
 
-  if (loading) return <div className="p-8">Memuat...</div>;
-  if (err) return <div className="p-8 text-red-600">Error: {err}</div>;
-  if (!settings) return <div className="p-8">Tidak ada data pengaturan</div>;
+  if (loading) return <div className="p-8 text-center">
+    <div className="text-lg font-semibold">Memuat pengaturan...</div>
+    <div className="text-sm text-gray-600 dark:text-gray-400 mt-2">Jika ini adalah pertama kalinya, pengaturan default akan digunakan.</div>
+  </div>;
+  if (!settings) return <div className="p-8 text-center text-red-600">Tidak ada data pengaturan</div>;
 
   return (
     <div className="p-6 space-y-6 max-w-2xl">
