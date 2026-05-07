@@ -208,15 +208,31 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Navigation Links */}
-      <div className="mb-8 flex flex-wrap gap-4">
-        <Link href="/admin" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-semibold">
-          Dashboard
-        </Link>
-        <Link href="/admin/struktur" className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 font-semibold">
-          Kelola Struktur
-        </Link>
+    <div className="max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gray-900 mb-2">Dashboard</h1>
+        <p className="text-gray-600">Kelola semua data organisasi Anda</p>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+          <div className="text-3xl font-bold text-blue-600">{members.length}</div>
+          <div className="text-gray-600 mt-2">Members</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+          <div className="text-3xl font-bold text-green-600">{events.length}</div>
+          <div className="text-gray-600 mt-2">Events</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500">
+          <div className="text-3xl font-bold text-purple-600">{news.length}</div>
+          <div className="text-gray-600 mt-2">Berita</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6 border-l-4 border-orange-500">
+          <div className="text-3xl font-bold text-orange-600">1</div>
+          <div className="text-gray-600 mt-2">Organisasi</div>
+        </div>
       </div>
 
       {/* Tabs */}

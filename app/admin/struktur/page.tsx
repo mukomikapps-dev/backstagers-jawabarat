@@ -175,8 +175,8 @@ export default function StructurePage() {
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Kelola Struktur Organisasi</h1>
+    <div className="max-w-7xl mx-auto">
+      <h1 className="text-4xl font-bold text-gray-900 mb-8">Kelola Struktur Organisasi</h1>
 
       {/* Form Tambah/Edit */}
       {(isAddingNew || editingId) && (
