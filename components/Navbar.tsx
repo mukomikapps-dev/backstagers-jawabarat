@@ -56,7 +56,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-black dark:text-white text-sm font-semibold hover:text-gray-600 dark:hover:text-gray-400 transition"
+              className={`text-sm font-semibold transition ${theme === 'light' ? 'text-black hover:text-gray-600' : 'text-white hover:text-gray-300'}`}
             >
               {link.label}
             </a>
@@ -124,7 +124,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="block text-black dark:text-white text-sm font-semibold py-2 hover:text-gray-600 dark:hover:text-gray-400 transition border-b border-gray-700 dark:border-gray-600 last:border-b-0"
+                className={`block text-sm font-semibold py-2 transition border-b last:border-b-0 ${theme === 'light' ? 'text-black hover:text-gray-600 border-gray-300' : 'text-white hover:text-gray-300 border-gray-700'}`}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
