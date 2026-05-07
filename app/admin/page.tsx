@@ -209,6 +209,16 @@ export default function AdminDashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Navigation Links */}
+      <div className="mb-8 flex flex-wrap gap-4">
+        <Link href="/admin" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-semibold">
+          Dashboard
+        </Link>
+        <Link href="/admin/struktur" className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 font-semibold">
+          Kelola Struktur
+        </Link>
+      </div>
+
       {/* Tabs */}
       <div className="flex border-b border-gray-300 mb-8">
         <button
